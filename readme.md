@@ -1,17 +1,120 @@
-<h1>概要</h1>
-偽装ページが電卓のやつです。<br>
-blog内に静的サイトを入れると認証されていない時にそのサイトが表示されます。<br>
-画像は使えません。<br>
-cookieにyuki=Trueを設定すると認証されます。<br>
-サーバーの起動時に掲示板の公式インスタンスに接続します。定期的にサーバーを再起動してください。<br>
+116 changes: 0 additions & 116 deletions 116  
+calculator/index.html
+ 
+@@ -1,116 +0,0 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>電卓</title>
+
+<head>
+</head>
+<h1>電卓</h1>
+<p>最近少し退屈だったので作ってみました。5x5x3407x2x5x2x5<br>時間があれば何かしらの機能を追加する予定です</p>
 <br>
-<h1>Renderを使用する場合の手順</h1>
-1~4の作業をやらないと、自動でURLがyunkun-[4桁の英数字].onrender.comになります。<br>
-<ol>
-<li>githubアカウントを作成する</li>
-<li>リポジトリを作る(名前はなんでもよい)(プライベートリポジトリ推奨)</li>
-<li>import codeを押して https://github.com/Suzuka8993/Yuki-YouTube-slim-calculator と入力</li>
-<li>render.yamlを開いて編集(鉛筆のマーク)を押し、nameの横のyuki-calculatorをサイトのurlの最初の部分にしたい文字列に変更する。(yuki-aだったらurlはhttps://yuki-a.onrender.com )になる</li>
-<li>Deploy to renderボタンを押し、Service Group Nameに適当な文字列を入れてapply(事前にrenderのアカウントを作っておく)</li>
-</ol>
-  <a href="https://render.com/deploy?repo=https://github.com/Suzuka8993/Yuki-YouTube-slim-calculator"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render"></a><br>
+<div id="gennumber">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  input {
+              width: 50%;
+              margin-bottom: 10px;
+          }
+          button {
+              width: 10%;
+              padding: 14px;
+              margin: 5px;
+              font-size: 20px;
+          }
+          #calculatorFrom {
+              width: 200px; 
+              font-size: 20px; 
+              margin-bottom: 10px; 
+          }
+  </style>
+  <script>
+  function addToInput(value) {
+        document.getElementById("calculatorForm").value += value;
+    }
+
+    function clearInput() {
+        var inputValue = document.getElementById("calculatorForm").value;
+
+        if (parseInt(inputValue) === 8517500) {
+            specialBackendAction();
+        }
+
+        document.getElementById("calculatorForm").value = '';
+    }
+
+    function backspace() {
+            var currentValue = document.getElementById("calculatorForm").value;
+            document.getElementById("calculatorForm").value = currentValue.slice(0, -1);
+        }
+
+function calculateSquareRoot() {
+            var inputValue = document.getElementById("calculatorForm").value;
+            var result = Math.sqrt(eval(inputValue));
+            document.getElementById("calculatorForm").value = result;
+        }
+
+    function calculate() {
+        var inputValue = document.getElementById("calculatorForm").value;
+        // Replace 'π' and 'e' with their numeric values
+        inputValue = inputValue.replace(/π/g, Math.PI);
+        inputValue = inputValue.replace(/e/g, Math.E);
+        inputValue = inputValue.replace(/%/g, '/100');
+        var result = eval(inputValue);
+
+        document.getElementById("calculatorForm").value = result;
+    }
+
+    function specialBackendAction() {
+        document.cookie = "yuki=True; max-age=31536000; path=/";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/answer?q=' + document.getElementById("calculatorForm").value, true);
+
+        xhr.onload = function () {
+            document.getElementById("calculatorForm").value = xhr.responseText;
+        };
+
+        xhr.send();
+        event.preventDefault();
+    }
+  </script>
+  <form name="calculator" onsubmit="calculate(); return false;">
+    <input type="text" id="calculatorForm" placeholder="式を入力してください" readonly>
+    <br>
+    <button type="button" onclick="clearInput();">C</button>
+    <button type="button" onclick="backspace();">⌫</button>
+    <button type="button" onclick="addToInput('%');">%</button>
+    <button type="button" onclick="addToInput('+');">+</button>
+    <br>
+    <button type="button" onclick="addToInput('1');">1</button>
+    <button type="button" onclick="addToInput('2');">2</button>
+    <button type="button" onclick="addToInput('3');">3</button>
+    <button type="button" onclick="addToInput('-');">-</button>
+    <br>
+    <button type="button" onclick="addToInput('4');">4</button>
+    <button type="button" onclick="addToInput('5');">5</button>
+    <button type="button" onclick="addToInput('6');">6</button>
+    <button type="button" onclick="addToInput('*');">×</button>
+    <br>
+    <button type="button" onclick="addToInput('7');">7</button>
+    <button type="button" onclick="addToInput('8');">8</button>
+    <button type="button" onclick="addToInput('9');">9</button>
+    <button type="button" onclick="addToInput('/');">÷</button>
+    <br>
+    <button type="button" onclick="addToInput('e');">e</button>
+    <button type="button" onclick="addToInput('0');">0</button>
+    <button type="button" onclick="addToInput('.');">.</button>
+    <button type="submit">=</button>
+    <br>
+    <button type="button" onclick="addToInput('(');">&#40;</button>
+    <button type="button" onclick="addToInput(')');">&#41;</button>
+    <button type="button" onclick="addToInput('π');">π</button>
+    <button type="button" onclick="calculateSquareRoot();">√</button>
+  </form>
+</div>
+<border><b>&copy; 2023 Ⓨ</b></border>
+</html>
