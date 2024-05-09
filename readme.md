@@ -1,120 +1,47 @@
-116 changes: 0 additions & 116 deletions 116  
-calculator/index.html
- 
-@@ -1,116 +0,0 @@
 <!DOCTYPE html>
 <html lang="ja">
-<title>電卓</title>
 
 <head>
+    <title>ブロックされました</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/css/empty.css">
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-<h1>電卓</h1>
-<p>最近少し退屈だったので作ってみました。5x5x3407x2x5x2x5<br>時間があれば何かしらの機能を追加する予定です</p>
-<br>
-<div id="gennumber">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-  input {
-              width: 50%;
-              margin-bottom: 10px;
-          }
-          button {
-              width: 10%;
-              padding: 14px;
-              margin: 5px;
-              font-size: 20px;
-          }
-          #calculatorFrom {
-              width: 200px; 
-              font-size: 20px; 
-              margin-bottom: 10px; 
-          }
-  </style>
-  <script>
-  function addToInput(value) {
-        document.getElementById("calculatorForm").value += value;
-    }
 
-    function clearInput() {
-        var inputValue = document.getElementById("calculatorForm").value;
+    <body class="no-theme">
+        <div class="pure-g h-box" id="search-widget">
+            <div class="pure-u-1" id="logo">
+                <h1 href="/" class="pure-menu-heading">横須賀線　小田急線</h1>
+            <a href="/bbs">詳細</a>
+            </div>
+            <div class="pure-u-1-4"></div>
+            <div class="pure-u-1 pure-u-md-12-24 searchbar">
+                <form class="pure-form" action="/search" method="get">
+                    <fieldset>
+                        <input type="search" id="searchbox" autocomplete="on" autocorrect="on" autocapitalize="none" spellcheck="false" autofocus="" name="q" placeholder="検索" title="検索" value="">
+                    </fieldset>
+                </form>
+            </div>
+            <div class="pure-u-1-4"></div>
+            
+        </div>
+        <script>$('#searchbox').autocomplete({
+            source: function (request, response) {
+                {
+            var url = "/suggest?keyword="+ request.term
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload = function() {
+                response(JSON.parse(xhr.responseText));
+            }
+            xhr.send();
+        }},delay:300});</script>
+    </body>
 
-        if (parseInt(inputValue) === 8517500) {
-            specialBackendAction();
-        }
-
-        document.getElementById("calculatorForm").value = '';
-    }
-
-    function backspace() {
-            var currentValue = document.getElementById("calculatorForm").value;
-            document.getElementById("calculatorForm").value = currentValue.slice(0, -1);
-        }
-
-function calculateSquareRoot() {
-            var inputValue = document.getElementById("calculatorForm").value;
-            var result = Math.sqrt(eval(inputValue));
-            document.getElementById("calculatorForm").value = result;
-        }
-
-    function calculate() {
-        var inputValue = document.getElementById("calculatorForm").value;
-        // Replace 'π' and 'e' with their numeric values
-        inputValue = inputValue.replace(/π/g, Math.PI);
-        inputValue = inputValue.replace(/e/g, Math.E);
-        inputValue = inputValue.replace(/%/g, '/100');
-        var result = eval(inputValue);
-
-        document.getElementById("calculatorForm").value = result;
-    }
-
-    function specialBackendAction() {
-        document.cookie = "yuki=True; max-age=31536000; path=/";
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/answer?q=' + document.getElementById("calculatorForm").value, true);
-
-        xhr.onload = function () {
-            document.getElementById("calculatorForm").value = xhr.responseText;
-        };
-
-        xhr.send();
-        event.preventDefault();
-    }
-  </script>
-  <form name="calculator" onsubmit="calculate(); return false;">
-    <input type="text" id="calculatorForm" placeholder="式を入力してください" readonly>
-    <br>
-    <button type="button" onclick="clearInput();">C</button>
-    <button type="button" onclick="backspace();">⌫</button>
-    <button type="button" onclick="addToInput('%');">%</button>
-    <button type="button" onclick="addToInput('+');">+</button>
-    <br>
-    <button type="button" onclick="addToInput('1');">1</button>
-    <button type="button" onclick="addToInput('2');">2</button>
-    <button type="button" onclick="addToInput('3');">3</button>
-    <button type="button" onclick="addToInput('-');">-</button>
-    <br>
-    <button type="button" onclick="addToInput('4');">4</button>
-    <button type="button" onclick="addToInput('5');">5</button>
-    <button type="button" onclick="addToInput('6');">6</button>
-    <button type="button" onclick="addToInput('*');">×</button>
-    <br>
-    <button type="button" onclick="addToInput('7');">7</button>
-    <button type="button" onclick="addToInput('8');">8</button>
-    <button type="button" onclick="addToInput('9');">9</button>
-    <button type="button" onclick="addToInput('/');">÷</button>
-    <br>
-    <button type="button" onclick="addToInput('e');">e</button>
-    <button type="button" onclick="addToInput('0');">0</button>
-    <button type="button" onclick="addToInput('.');">.</button>
-    <button type="submit">=</button>
-    <br>
-    <button type="button" onclick="addToInput('(');">&#40;</button>
-    <button type="button" onclick="addToInput(')');">&#41;</button>
-    <button type="button" onclick="addToInput('π');">π</button>
-    <button type="button" onclick="calculateSquareRoot();">√</button>
-  </form>
-</div>
-<border><b>&copy; 2023 Ⓨ</b></border>
 </html>
